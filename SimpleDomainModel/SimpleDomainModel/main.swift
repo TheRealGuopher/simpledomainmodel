@@ -94,11 +94,26 @@ open class Job {
         self.type = type
     }
 
-//    open func calculateIncome(_ hours: Int) -> Int {
-//    }
-//
-//    open func raise(_ amt : Double) {
-//    }
+    open func calculateIncome(_ hours: Int) -> Int {
+        switch self.type {
+        case .Hourly(let rate):
+            return Int(rate * Double(hours))
+        case .Salary(let rate):
+            return rate
+        default:
+            return 1
+        }
+    }
+
+    open func raise(_ amt : Double) {
+        switch self.type {
+        case .Hourly(let rate):
+            rate += amt
+        case .Salary(let rate):
+            Double(rate) += amt
+        default:
+        }
+    }
 }
 
 ////////////////////////////////////
