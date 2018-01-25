@@ -23,6 +23,7 @@ open class TestMe {
 ////////////////////////////////////
 // Money
 //
+
 public struct Money {
     public var amount : Int
     public var currency : String
@@ -31,37 +32,74 @@ public struct Money {
         self.amount = amount
         self.currency = currency
     }
-//    public func convert(_ to: String) -> Money {
-//
-//    }
-//
-//    public func add(_ to: Money) -> Money {
-//    }
-//    public func subtract(_ from: Money) -> Money {
-//    }
+    public func convert(_ to: String) -> Money {
+        var mon = Money(amount: 0, currency: "default")
+        if (self.currency == "GBP") {
+            mon.amount = rate(self.amount, 2)
+            mon.currency = "USD"
+        } else if (self.currency == "EUR") {
+            mon.amount = rate(self.amount, 2/3)
+            mon.currency = "USD"
+        } else if (self.currency == "CAN") {
+            mon.amount = rate(self.amount, 4/5)
+            mon.currency = "USD"
+        }
+        if (mon.currency == "USD") {
+            if (to == "GBP") {
+                mon.amount = rate(mon.amount, 0.5)
+                mon.currency = "GBP"
+            } else if (to == "EUR") {
+                mon.amount = rate(mon.amount, 1.5)
+                mon.currency = "EUR"
+            } else if (to == "CAN") {
+                mon.amount = rate(self.amount, 1.25)
+                mon.currency = "CAN"
+            }
+        }
+        return mon
+    }
+    
+    public func rate(_ orig: Int, _ num: Double) -> Int {
+        return Int(Double(orig) * num)
+    }
+
+    public func add(_ to: Money) -> Money {
+        let first = self.convert("USD")
+        let second = to.convert("USD")
+        let sum = first.amount + second.amount
+        return Money(amount: sum, currency: to.currency)
+    }
+    public func subtract(_ from: Money) -> Money {
+        let first = self.convert("USD")
+        let second = from.convert("USD")
+        let sum = second.amount - first.amount
+        return Money(amount: sum, currency: from.currency)
+    }
 }
 
 ////////////////////////////////////
 // Job
 //
-//open class Job {
-//  fileprivate var title : String
-//  fileprivate var type : JobType
+open class Job {
+    fileprivate var title : String
+    fileprivate var type : JobType
+
+    public enum JobType {
+        case Hourly(Double)
+        case Salary(Int)
+    }
+
+    public init(title : String, type : JobType) {
+        self.title = title
+        self.type = type
+    }
+
+//    open func calculateIncome(_ hours: Int) -> Int {
+//    }
 //
-//  public enum JobType {
-//    case Hourly(Double)
-//    case Salary(Int)
-//  }
-//
-//  public init(title : String, type : JobType) {
-//  }
-//
-//  open func calculateIncome(_ hours: Int) -> Int {
-//  }
-//
-//  open func raise(_ amt : Double) {
-//  }
-//}
+//    open func raise(_ amt : Double) {
+//    }
+}
 
 ////////////////////////////////////
 // Person
