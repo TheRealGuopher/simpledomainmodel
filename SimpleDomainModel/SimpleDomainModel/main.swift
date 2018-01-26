@@ -171,10 +171,9 @@ open class Family {
     open func householdIncome() -> Int {
         var sum = 0
         for person in self.members {
-            guard let income = person.job?.calculateIncome(2000) else {
-                return 0
+            if ((person.job?.calculateIncome(2000)) != nil) {
+                sum += (person.job?.calculateIncome(2000))!
             }
-            sum += income
         }
         return sum
     }
