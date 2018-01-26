@@ -124,20 +124,20 @@ open class Person {
     fileprivate var _job : Job? = nil
     open var job : Job? {
         get {
-            return self.job
+            return self._job
         }
         set(value) {
-            self.job = value
+            self._job = value
         }
     }
 
     fileprivate var _spouse : Person? = nil
     open var spouse : Person? {
         get {
-            return self.spouse
+            return self._spouse
         }
         set(value) {
-            self.spouse = value
+            self._spouse = value
         }
     }
 
@@ -148,7 +148,8 @@ open class Person {
     }
 
     open func toString() -> String {
-        return "[Person: firstName:\(self.firstName) lastName:\(self.lastName) age:\(self.age) job: \(String(describing: self.job)) spouse: \(String(describing: self.spouse))]"
+        let str = "[Person: firstName:\(self.firstName) lastName:\(self.lastName) age:\(self.age) job:\(String(describing: self.job)) spouse:\(String(describing: self.spouse))]"
+        return str
     }
 }
 
@@ -170,7 +171,10 @@ open class Family {
     open func householdIncome() -> Int {
         var sum = 0
         for person in self.members {
-            sum += (person.job?.calculateIncome(2000))!
+            guard let income = person.job?.calculateIncome(2000) else {
+                return 0
+            }
+            sum += income
         }
         return sum
     }
