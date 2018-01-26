@@ -127,7 +127,9 @@ open class Person {
             return self._job
         }
         set(value) {
-            self._job = value
+            if self.age >= 16 {
+                self._job = value
+            }
         }
     }
 
@@ -137,7 +139,9 @@ open class Person {
             return self._spouse
         }
         set(value) {
-            self._spouse = value
+            if self.age >= 18 {
+                self._spouse = value
+            }
         }
     }
 
@@ -165,6 +169,7 @@ open class Family {
     }
 
     open func haveChild(_ child: Person) -> Bool {
+        members.append(child)
         return members.count > 2
     }
 
